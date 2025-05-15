@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BCI Dwell Time Speller Simulation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff5f5;
+      color: #b30000;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #b30000;
+    }
+
+    #output {
+      font-size: 24px;
+      margin-bottom: 20px;
+      border: 2px solid #b30000;
+      padding: 10px;
+      border-radius: 10px;
+      min-height: 40px;
+    }
+
+    .keyboard {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .key {
+      padding: 15px;
+      background-color: #ffcccc;
+      border: 2px solid #b30000;
+      border-radius: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .key:hover {
+      background-color: #ff9999;
+    }
+
+    .dwell {
+      background-color: #ff6666 !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>BCI Speller Simulation (Dwell Time)</h1>
+  <p>Hover over a letter for 2 seconds to select it.</p>
+  <div id="output"></div>
+  <div class="keyboard" id="keyboard"></div>
+
+  <script>
+    const output = document.getElementById("output");
+    const keyboard = document.getElementById("keyboard");
+    const dwellTime = 2000; // 2 seconds
+    let dwellTimer;
+    let currentKey;
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    letters.forEach(letter => {
+      const key = document.createElement("div");
+      key.className = "key";
+      key.textContent = letter;
+
+      key.addEventListener("mouseenter", () => {
+        key.classList.add("dwell");
+        currentKey = key;
+        dwellTimer = setTimeout(() => {
+          output.textContent += letter;
+        }, dwellTime);
+      });
+
+      key.addEventListener("mouseleave", () => {
+        key.classList.remove("dwell");
+        clearTimeout(dwellTimer);
+      });
+
+      keyboard.appendChild(key);
+    });
+  </script>
+</body>
+</html>
